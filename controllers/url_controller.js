@@ -13,7 +13,7 @@ export const handleGenerateNewShortURL = async (req, res) => {
     visitHistory: [],
   });
 
-  return res.status(200).json({ id: shortID });
+  return res.status(200).render("home", { id: shortID });
 };
 
 export const handleShortUrl = async (req, res) => {
@@ -37,10 +37,15 @@ export const handleGetAnalytics = async (req, res) => {
     return res.status(404).json({ message: "Short URL not found" });
   }
 
-  return res
-    .status(200)
-    .json({
-      msg: `Request Successful for ${shortId}`,
-      TotalClicks: entry.visitHistory.length,
-    });
+  return res.status(200).json({
+    msg: `Request Successful for ${shortId}`,
+    TotalClicks: entry.visitHistory.length,
+  });
+};
+
+export const handleHtmlRender = async (req, res) => {
+  const records = await URL.find();
+  return res.render("home", {
+    urlRecords: records,
+  });
 };

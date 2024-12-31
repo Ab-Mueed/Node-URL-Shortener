@@ -1,8 +1,8 @@
-import  express  from "express";
+import express, { urlencoded } from "express";
+import path from "path";
 import urlRoute from "./routes/url.js";
-import idRoute from "./routes/short_url.js"
-import connectMongoDB from "./connection.js"
-
+import staticRoute from "./routes/staticRouter.js";
+import connectMongoDB from "./connection.js";
 
 // Initialize Application
 const app = express();
@@ -15,12 +15,19 @@ connectMongoDB("mongodb://127.0.0.1:27017/Node-URL-Shortener").then(() =>
   console.log("MongoDB Connected")
 );
 
+// Set View Engine
+app.set("view engine", "ejs");
+
+// Tell Express where View Files are Located
+app.set("views", path.resolve("./views"));
+
 // Built-in Middleware
-app.use(express.json())
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Custom Middleware
 app.use("/url", urlRoute);
-app.use("/", idRoute)
+app.use("/", staticRoute);
 
 // Start Server
 app.listen(PORT, () =>
