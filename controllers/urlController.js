@@ -7,10 +7,12 @@ export const handleGenerateNewShortURL = async (req, res) => {
     return res.status(400).json({ message: "URL is required" });
   }
   const shortID = nanoid(8);
+
   await URL.create({
     shortId: shortID,
     redirectURL: data.url,
     visitHistory: [],
+    createdBy: req.user._id,
   });
 
   return res.status(200).render("home", { id: shortID });
@@ -44,7 +46,17 @@ export const handleGetAnalytics = async (req, res) => {
 };
 
 export const handleHtmlRender = async (req, res) => {
-  const records = await URL.find();
+  if (!req.user) {
+    return res.redirect("/login");
+  }
+
+  if (req.user.role === "ADMIN") {
+    const allRecords = await URL.find({});
+    return res.render("home", {
+      urlRecords: allRecords,
+    });
+  }
+  const records = await URL.find({ createdBy: req.user._id });
   return res.render("home", {
     urlRecords: records,
   });

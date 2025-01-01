@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              jetbrains: ['"JetBrains Mono"', "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+    <title>Sign Up Page</title>
+  </head>
+  <body class="bg-gray-900 text-white font-jetbrains">
+    <div class="container mx-auto px-4 py-8">
+      <h1 class="text-4xl font-semibold text-center mb-6">Sign Up</h1>
+
+      <div class="max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
+        <form action="/user" method="POST" class="space-y-4">
+          <div>
+            <label for="name" class="block text-lg">Username:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+          <div>
+            <label for="email" class="block text-lg">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div>
+            <label for="password" class="block text-lg">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="w-full p-3 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            Sign Up
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

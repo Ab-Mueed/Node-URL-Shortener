@@ -1,8 +1,18 @@
-import express, { urlencoded } from "express";
+import express from "express";
 import path from "path";
+import connectMongoDB from "./connection.js";
+import cookieParser from "cookie-parser";
+
+// Import Custom Middlewares
+import {
+  checkForAuthentication,
+  restrictTo,
+} from "./middlewares/authMiddleware.js";
+
+// Import Routes
 import urlRoute from "./routes/url.js";
 import staticRoute from "./routes/staticRouter.js";
-import connectMongoDB from "./connection.js";
+import userRoute from "./routes/user.js";
 
 // Initialize Application
 const app = express();
@@ -24,9 +34,12 @@ app.set("views", path.resolve("./views"));
 // Built-in Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
-// Custom Middleware
-app.use("/url", urlRoute);
+// Custom Middleware - Route Registration
+app.use(checkForAuthentication);
+app.use("/url", restrictTo(["NORMAL", "ADMIN"]), urlRoute);
+app.use("/user", userRoute);
 app.use("/", staticRoute);
 
 // Start Server
